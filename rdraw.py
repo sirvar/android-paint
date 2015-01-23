@@ -66,10 +66,9 @@ def ellipse_filled(Surface, color, x1, y1, x2, y2):
 
 
 def ellipse_unfilled(Surface, color, x1, y1, x2, y2, size):
-    #eRect = Rect(x1, y1, x2 - x1, y2 - y1)
-    #eRect = eRect.normalize()
-    #draw.ellipse(Surface, color, eRect, size)
-    pass
+    eRect = Rect(x1, y1, x2 - x1, y2 - y1)
+    eRect.normalize()
+    draw.ellipse(Surface, color, eRect, size)
 
 
 def line(Surface, color, x1, y1, x2, y2, size):

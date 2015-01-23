@@ -1,3 +1,6 @@
+#Developed by Rikin Katyal
+#Made for grade 11 computer science project. 2015
+
 from os import environ
 from time import strftime, localtime
 from math import hypot
@@ -17,8 +20,7 @@ import dialog
 
 #TODO
 #watermark
-#crop
-#change lockscreen to true
+#ellipse and undo/redo and stamp
 #remove lock in corner for mac
 
 
@@ -575,6 +577,9 @@ while running:
                 rdraw.text(main_copy, current_color, tx, ty, size, user_text)
                 enable_text = False
                 user_text = ''
+            if e.key == K_ESCAPE:
+                user_text = ''
+                enable_text = False
 
         elif e.type == KEYDOWN and not show_dialog:
 
@@ -799,6 +804,10 @@ while running:
     if enable_text:
         rdraw.text(main, current_color, tx, ty, size, user_text)
 
+    # Call rect function
+
+    filled_rects()
+
     # Show rectanlge or ellipse options
 
     if show_rect:
@@ -873,10 +882,6 @@ while running:
             stamp_count = 1
 
         drawing = False
-
-    # Call rect function
-
-    filled_rects()
 
     # Status bar time text
 
