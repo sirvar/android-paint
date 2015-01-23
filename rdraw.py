@@ -143,3 +143,9 @@ def pen(Surface, color, mx, my, ox, oy, size):
         x = int(mx + (i * sx) / dist)
         y = int(my + (i * sy) / dist)
         draw.line(Surface, color, (x - size, y - size), (x + size, y + size), 2)
+
+
+def text(Surface, color, tx, ty, size, user_text):
+    user_text_font = font.Font("fonts/Roboto-Regular.ttf",  (size * 10))
+    user_text_font_text = user_text_font.render(user_text, True, color)
+    Surface.blit(user_text_font_text, (tx,ty))

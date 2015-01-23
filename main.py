@@ -59,8 +59,9 @@ def draw_tool(tool):
     if tool == 'pen':
         rdraw.pen(main_copy, current_color, mx, my, ox, oy, size)
     if tool == 'text':
-        global enable_text
+        global enable_text, tx, ty
         enable_text = True
+        tx, ty = mx, my
     if tool == 'spray_paint':
         rdraw.spray_paint(main_copy, current_color, mx, my, ox, oy, size)
     if tool == 'magic_eraser':
@@ -410,6 +411,10 @@ image_ext = ['jpg', 'jpeg', 'png', 'gif', 'bmp']
 
 dialog_list = ["about", "help", "quit", "save", "load_fail"]
 
+# Special charaters list
+
+special_chars = ["`", "~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "|", "]", "}", "{", "[", ";", ":", "'", '"', ",", "<", ">", ".", "?", "/"]
+
 # Setup TKInter
 
 app = Tk()
@@ -556,12 +561,21 @@ while running:
             quit_program()
 
         if e.type == KEYDOWN and enable_text and not show_dialog and not show_menu:
-            user_text += str(e.unicode)
-            if pressed[K_BACKSPACE]:
+            letter = e.unicode
+            if e.key != 8 and not ctrl_held:
+                user_text += letter
+            if e.key == K_BACKSPACE:
                 try:
                     user_text = user_text[:-1]
                 except:
                     pass
+            if e.key == K_SPACE:
+                user_text += ' '
+            if e.key == K_RETURN:
+                rdraw.text(main_copy, current_color, tx, ty, size, user_text)
+                enable_text = False
+                user_text = ''
+
         elif e.type == KEYDOWN and not show_dialog:
 
             # Keyboard shortcuts
@@ -576,12 +590,40 @@ while running:
                 undo()
             if e.key == K_y and ctrl_held:
                 redo()
+            if e.key == K_p:
+                current_tool = "pencil"
+                current_tool_selected = rects.pencil_rect
+            if e.key == K_e:
+                current_tool = "eraser"
+                current_tool_selected = rects.eraser_rect
+            if e.key == K_b:
+                current_tool = "brush"
+                current_tool_selected = rects.brush_rect
+            if e.key == K_l:
+                current_tool = "line"
+                current_tool_selected = rects.line_rect
+            if e.key == K_f:
+                current_tool = "bucket"
+                current_tool_selected = rects.bucket_rect
             if e.key == K_m:
                 current_tool = "magic_eraser"
                 current_tool_selected = rects.magic_eraser_rect
             if e.key == K_s:
                 current_tool = "spray_paint"
                 current_tool_selected = rects.spray_paint_rect
+            if e.key == K_k:
+                current_tool = "marker"
+                current_tool_selected = rects.marker_rect
+            if e.key == K_c:
+                current_tool = "pen"
+                current_tool_selected = rects.pen_rect
+            if e.key == K_t:
+                current_tool = "text"
+                current_tool_selected = rects.text_rect
+            if e.key == K_d:
+                current_tool = "eyedropper"
+                current_tool_selected = rects.eyedropper_rect
+
             # Size shortcut
 
             if e.key == K_1: size = 1
@@ -594,6 +636,11 @@ while running:
             if e.key == K_8: size = 8
             if e.key == K_9: size = 9
             if e.key == K_0: size = 10
+
+        if e.type == MOUSEBUTTONDOWN and not canvas.collidepoint(mpos) and not rects.color_picker_rect.collidepoint(mpos):
+            rdraw.text(main_copy, current_color, tx, ty, size, user_text)
+            enable_text = False
+            user_text = ''
 
         if e.type == MOUSEBUTTONDOWN and not show_dialog:
             if e.button == 5:
@@ -747,6 +794,11 @@ while running:
         draw.circle(main, current_color, (mx, my), size * 2)
         draw.circle(main, (0,0,0), (mx, my), size * 2, 1)
 
+    # Text tool
+
+    if enable_text:
+        rdraw.text(main, current_color, tx, ty, size, user_text)
+
     # Show rectanlge or ellipse options
 
     if show_rect:
@@ -881,13 +933,6 @@ while running:
         main.blit(stamp_list[s], stamp_location[s])
     draw.circle(main, background_color, (color_pos), 3)
     draw.circle(main, (0,0,0), (color_pos), 3, 1)
-
-    # Text tool
-
-    if enable_text:
-        print(user_text)
-        if pressed[K_RETURN]:
-            enable_text = False
 
     # Menu
 
