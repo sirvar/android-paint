@@ -792,6 +792,7 @@ while running:
 
     if current_tool == "brush" and canvas.collidepoint(mpos) and not show_menu and not show_dialog:
         draw.circle(main, (0,0,0), (mx, my), size * 3, 1)
+        rdraw.brush(main, current_color, mx, my, ox, oy, size)
 
     # Marker Outline
 
@@ -804,9 +805,33 @@ while running:
     if enable_text:
         rdraw.text(main, current_color, tx, ty, size, user_text)
 
+    # Draw with selected tool
+
+    if mb[0] == 1 and not show_menu and canvas.collidepoint(mpos) and not show_dialog and not show_menu:
+        if rect_ellipse_line_count == 1 and ('rectangle' in current_tool or 'ellipse' in current_tool or current_tool == "line"):
+            rx, ry = mx, my
+            rect_ellipse_line_count = 0
+        if stamp_count == 1 and "stamp" in current_tool:
+            rx,ry = mx, my
+            stamp_count = 0
+        draw_tool(current_tool)
+        drawing = True
+        draw_canvas = True
+    elif mb[0] == 0:
+        if rect_ellipse_line_count == 0 and ('rectangle' in current_tool or 'ellipse' in current_tool or current_tool == "line"):
+            draw_rect_ellipse_line(current_tool)
+            rect_ellipse_line_count = 1
+        if stamp_count == 0 and "stamp" in current_tool and drawing:
+            draw_stamp(current_tool)
+            stamp_count = 1
+
+        drawing = False
+
+
     # Call rect function
 
     filled_rects()
+
 
     # Show rectanlge or ellipse options
 
@@ -860,28 +885,6 @@ while running:
         if click and not rects.ellipse.collidepoint(mpos) and not rects.ellipse_filled_rect.collidepoint(mpos) and not rects.ellipse_unfilled_rect.collidepoint(mpos):
             show_ellipse = False
             click = False
-
-    # Draw with selected tool
-
-    if mb[0] == 1 and not show_menu and canvas.collidepoint(mpos) and not show_dialog and not show_menu:
-        if rect_ellipse_line_count == 1 and ('rectangle' in current_tool or 'ellipse' in current_tool or current_tool == "line"):
-            rx, ry = mx, my
-            rect_ellipse_line_count = 0
-        if stamp_count == 1 and "stamp" in current_tool:
-            rx,ry = mx, my
-            stamp_count = 0
-        draw_tool(current_tool)
-        drawing = True
-        draw_canvas = True
-    elif mb[0] == 0:
-        if rect_ellipse_line_count == 0 and ('rectangle' in current_tool or 'ellipse' in current_tool or current_tool == "line"):
-            draw_rect_ellipse_line(current_tool)
-            rect_ellipse_line_count = 1
-        if stamp_count == 0 and "stamp" in current_tool and drawing:
-            draw_stamp(current_tool)
-            stamp_count = 1
-
-        drawing = False
 
     # Status bar time text
 
