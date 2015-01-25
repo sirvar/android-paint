@@ -266,12 +266,26 @@ def reset():
 
 def undo():
     #Function to undo
-    pass
+    global undo_list
+    try:
+        main_copy.set_clip(canvas)
+        redo_list.append(undo_list[-1])
+        main_copy.blit(undo_list[-2], (0,0))
+        del undo[-1]
+    except:
+        pass
 
 
 def redo():
     #Function to redo
-    pass
+    global undo_list, redo_list
+    try:
+        main_copy.set_clip(canvas)
+        undo_list.append(redo_list[-1])
+        main_copy.blit(redo_list[-1], (0,0))
+        del redo_list[-1]
+    except:
+        pass
 
 
 # Setup program
@@ -317,7 +331,6 @@ background_color = (255, 255, 255, 255)
 rect_ellipse_line_count = 0
 stamp_count = 0
 color_pos = (431,885)
-current_index = -1
 user_text = ''
 about_text = ["Welcome to Android Paint. This is an", "Android themed paint program developed", "in Python and Pygame for a computer", "science project.", "", "Version: 0.1 BETA", "© 2015 Rikin Katyal"]
 help_text = ["Welcome to Android Paint. You can use", "the tools on the left to draw on the", "canvas. You can use the color picker on", "the bottom to change the drawing color", "or use the Android stamps in your", "drawing. Use the tools at the top to", "save, clear, load, undo, and redo."]
@@ -600,6 +613,11 @@ while running:
         if e.type == QUIT:
             quit_program()
 
+        if e.type == MOUSEBUTTONDOWN and e.button == 1 and canvas.collidepoint(mpos):
+            undo_list.append(main_copy)
+            redo_list.append(main_copy)
+            print(undo_list)
+
         if e.type == KEYDOWN and enable_text and not show_dialog and not show_menu:
             letter = e.unicode
             if e.key != 8 and not ctrl_held:
@@ -823,10 +841,6 @@ while running:
 
         if e.type == MOUSEBUTTONDOWN and e.button == 1:
             click = True
-        elif e.type == MOUSEBUTTONUP and e.button == 1:
-            click = False
-            undo_list.append(main_copy)
-            redo_list.append(main_copy)
 
     if len(undo_list) > 20:
         undo_list = undo_list[1:]
@@ -899,7 +913,7 @@ while running:
         draw.rect(main, (221,221,221), rects.rectangle_unfilled_rect)
         if rects.rectangle_filled_rect.collidepoint(mpos):
             hover(rects.rectangle_filled_rect)
-            if click:
+            if mb[0] == 1:
                 current_tool = 'rectangle_filled'
                 current_tool_selected = rects.rectangle
                 rect_ellipse_line_count = 1
@@ -908,7 +922,7 @@ while running:
 
         if rects.rectangle_unfilled_rect.collidepoint(mpos):
             hover(rects.rectangle_unfilled_rect)
-            if click:
+            if mb[0] == 1:
                 current_tool = 'rectangle_unfilled'
                 current_tool_selected = rects.rectangle
                 rect_ellipse_line_count = 1
@@ -916,7 +930,7 @@ while running:
                 show_rect = False
         main.blit(images.rectangle_filled, (60,309))
         main.blit(images.rectangle_unfilled, (60,365))
-        if click and not rects.rectangle.collidepoint(mpos) and not rects.rectangle_filled_rect.collidepoint(mpos) and not rects.rectangle_unfilled_rect.collidepoint(mpos):
+        if mb[0] == 1 and not rects.rectangle.collidepoint(mpos) and not rects.rectangle_filled_rect.collidepoint(mpos) and not rects.rectangle_unfilled_rect.collidepoint(mpos):
             show_rect = False
             click = False
     elif show_ellipse:
@@ -924,7 +938,7 @@ while running:
         draw.rect(main, (221,221,221), rects.ellipse_unfilled_rect)
         if rects.ellipse_filled_rect.collidepoint(mpos):
             hover(rects.ellipse_filled_rect)
-            if click:
+            if mb[0] == 1:
                 current_tool = 'ellipse_filled'
                 current_tool_selected = rects.ellipse
                 rect_ellipse_line_count = 1
@@ -933,7 +947,7 @@ while running:
 
         if rects.ellipse_unfilled_rect.collidepoint(mpos):
             hover(rects.ellipse_unfilled_rect)
-            if click:
+            if mb[0] == 1:
                 current_tool = 'ellipse_unfilled'
                 current_tool_selected = rects.ellipse
                 rect_ellipse_line_count = 1
@@ -941,7 +955,7 @@ while running:
                 show_ellipse = False
         main.blit(images.ellipse_filled, (60,365))
         main.blit(images.ellipse_unfilled, (60,421))
-        if click and not rects.ellipse.collidepoint(mpos) and not rects.ellipse_filled_rect.collidepoint(mpos) and not rects.ellipse_unfilled_rect.collidepoint(mpos):
+        if mb[0] == 1 and not rects.ellipse.collidepoint(mpos) and not rects.ellipse_filled_rect.collidepoint(mpos) and not rects.ellipse_unfilled_rect.collidepoint(mpos):
             show_ellipse = False
             click = False
 
@@ -1030,19 +1044,19 @@ while running:
     if show_dialog:
         if dialog_list[current_dialog] == "about":
             get_click = dialog.create(main, "About", about_text, 295, 1, "OK", None, mpos)
-            if get_click and click:
+            if get_click and mb[0] == 1:
                 show_dialog = False
         elif dialog_list[current_dialog] == "help":
             get_click = dialog.create(main, "Help", help_text, 300, 1, "OK", None, mpos)
-            if get_click and click:
+            if get_click and mb[0] == 1:
                 show_dialog = False
         elif dialog_list[current_dialog] == "quit":
             get_click = dialog.create(main, 'Quit?', ['Are you sure you want to quit?'], 150, 2, "Yes", "No", mpos)
-            if get_click and click:
+            if get_click and mb[0] == 1:
                 if not draw_canvas: sys.exit()
                 current_dialog = 3
                 click = False
-            elif get_click == False and click:
+            elif get_click == False and mb[0] == 1:
                 show_dialog = False
                 click = False
         elif dialog_list[current_dialog] == "save":
@@ -1054,7 +1068,7 @@ while running:
                 sys.exit()
         elif dialog_list[current_dialog] == "load_fail":
             get_click = dialog.create(main, "Unsupported File", load_fail_text, 200, 1, "OK", None, mpos)
-            if get_click and click:
+            if get_click and mb[0] == 1:
                 show_dialog = False
 
     # Set mouse to custom mouse
