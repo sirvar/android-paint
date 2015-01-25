@@ -20,7 +20,7 @@ import dialog
 
 #TODO
 #watermark
-#ellipse and undo/redo and stamp
+#shift held and undo/redo
 #remove lock in corner for mac
 
 
@@ -46,19 +46,17 @@ def draw_tool(tool):
     if tool == 'ellipse_unfilled':
         rdraw.ellipse_unfilled(main, current_color, rx, ry, mx, my, size)
     if tool == "line":
-        """
         if pressed[K_LSHIFT] or pressed[K_RSHIFT]:
-            distx = abs(rx-mx)
-            disty = abs(ry-my)
-            rdraw.line(main, current_color, rx, ry, distx, disty, size)
-        """
-        rdraw.line(main, current_color, rx, ry, mx, my, size)
+            pass
+        else:
+            rdraw.line(main, current_color, rx, ry, mx, my, size)
     if tool == 'eyedropper' and canvas.collidepoint(mpos):
         current_color = main.get_at(mpos)
         color_pos = (431,885)
     if tool == "marker":
         rdraw.marker(main_copy, current_color, mx, my, ox, oy, size)
     if tool == 'pen':
+        print(right_click)
         rdraw.pen(main_copy, current_color, mx, my, ox, oy, size)
     if tool == 'text':
         global enable_text, tx, ty
@@ -84,6 +82,21 @@ def draw_tool(tool):
     if tool == 'android_ics_stamp':
         android_ics_stamp = transform.scale(images.android_ics_stamp, (150 + (size - 1) * 7, 110 + (size - 1) * 10))
         main.blit(android_ics_stamp, (mx - (150 + (size - 1) * 7) // 2, my - (110 + (size - 1) * 10) // 2))
+    if tool == 'droid-iron':
+        droid_iron_stamp = transform.scale(images.droid_iron_stamp, (100 + (size - 1) * 20, 100 + (size - 1) * 20))
+        main.blit(droid_iron_stamp, (mx - (100 + (size - 1) * 20) // 2, my - (100 + (size - 1) * 20) // 2))
+    if tool == 'droid-frank':
+        droid_frank_stamp = transform.scale(images.droid_frank_stamp, (100 + (size - 1) * 20, 100 + (size - 1) * 20))
+        main.blit(droid_frank_stamp, (mx - (100 + (size - 1) * 20) // 2, my - (100 + (size - 1) * 20) // 2))
+    if tool == 'droid-r2d2':
+        droid_r2d2_stamp = transform.scale(images.droid_r2d2_stamp, (100 + (size - 1) * 20, 100 + (size - 1) * 20))
+        main.blit(droid_r2d2_stamp, (mx - (100 + (size - 1) * 20) // 2, my - (100 + (size - 1) * 20) // 2))
+    if tool == 'droid-hulk':
+        droid_hulk_stamp = transform.scale(images.droid_hulk_stamp, (100 + (size - 1) * 20, 100 + (size - 1) * 20))
+        main.blit(droid_hulk_stamp, (mx - (100 + (size - 1) * 20) // 2, my - (100 + (size - 1) * 20) // 2))
+    if tool == 'droid-ninja':
+        droid_ninja_stamp = transform.scale(images.droid_ninja_stamp, (100 + (size - 1) * 20, 100 + (size - 1) * 20))
+        main.blit(droid_ninja_stamp, (mx - (100 + (size - 1) * 20) // 2, my - (100 + (size - 1) * 20) // 2))
     if tool == 'user_image' and user_blit_count == 1:
         global current_image
         img_height = current_image.get_height()
@@ -124,6 +137,21 @@ def draw_stamp(tool):
     if tool == 'android_ics_stamp':
         android_ics_stamp = transform.scale(images.android_ics_stamp, (150 + (size - 1) * 7, 110 + (size - 1) * 10))
         main_copy.blit(android_ics_stamp, (mx - (150 + (size - 1) * 7) // 2, my - (110 + (size - 1) * 10) // 2))
+    if tool == 'droid-iron':
+        droid_iron_stamp = transform.scale(images.droid_iron_stamp, (100 + (size - 1) * 20, 100 + (size - 1) * 20))
+        main_copy.blit(droid_iron_stamp, (mx - (100 + (size - 1) * 20) // 2, my - (100 + (size - 1) * 20) // 2))
+    if tool == 'droid-frank':
+        droid_frank_stamp = transform.scale(images.droid_frank_stamp, (100 + (size - 1) * 20, 100 + (size - 1) * 20))
+        main_copy.blit(droid_frank_stamp, (mx - (100 + (size - 1) * 20) // 2, my - (100 + (size - 1) * 20) // 2))
+    if tool == 'droid-r2d2':
+        droid_r2d2_stamp = transform.scale(images.droid_r2d2_stamp, (100 + (size - 1) * 20, 100 + (size - 1) * 20))
+        main_copy.blit(droid_r2d2_stamp, (mx - (100 + (size - 1) * 20) // 2, my - (100 + (size - 1) * 20) // 2))
+    if tool == 'droid-hulk':
+        droid_hulk_stamp = transform.scale(images.droid_hulk_stamp, (100 + (size - 1) * 20, 100 + (size - 1) * 20))
+        main_copy.blit(droid_hulk_stamp, (mx - (100 + (size - 1) * 20) // 2, my - (100 + (size - 1) * 20) // 2))
+    if tool == 'droid-ninja':
+        droid_ninja_stamp = transform.scale(images.droid_ninja_stamp, (100 + (size - 1) * 20, 100 + (size - 1) * 20))
+        main_copy.blit(droid_ninja_stamp, (mx - (100 + (size - 1) * 20) // 2, my - (100 + (size - 1) * 20) // 2))
 
 
 def quit_program():
@@ -382,6 +410,11 @@ rects_list = [
     rects.android_kitkat_rect,
     rects.android_jellybean_rect,
     rects.android_ics_rect,
+    rects.droid_iron_rect,
+    rects.droid_frank_rect,
+    rects.droid_r2d2_rect,
+    rects.droid_hulk_rect,
+    rects.droid_ninja_rect,
     rects.marker_rect,
     rects.pen_rect,
     rects.text_rect,
@@ -397,8 +430,13 @@ stamp_list = [images.android_stamp_icon,
               images.android_lollipop_stamp_icon,
               images.android_kitkat_stamp_icon,
               images.android_jellybean_stamp_icon,
-              images.android_ics_stamp_icon]
-stamp_location = [(480, 645), (580, 645), (680, 645), (780, 645), (880, 650)]
+              images.android_ics_stamp_icon,
+              images.droid_iron_stamp_icon,
+              images.droid_frank_stamp_icon,
+              images.droid_r2d2_stamp_icon,
+              images.droid_hulk_stamp_icon,
+              images.droid_ninja_stamp_icon,]
+stamp_location = [(480, 645), (580, 645), (680, 645), (780, 645), (880, 650), (480, 762), (584, 762), (688, 762), (792, 762), (896, 762)]
 
 # Undo/redo list
 
@@ -747,11 +785,35 @@ while running:
                     current_tool = "android_ics_stamp"
                     current_tool_selected = rects.android_ics_rect
                     click = False
+                if rects.droid_iron_rect.collidepoint(mpos):
+                    old_tool = current_tool
+                    current_tool = "droid-iron"
+                    current_tool_selected = rects.droid_iron_rect
+                    click = False
+                if rects.droid_frank_rect.collidepoint(mpos):
+                    old_tool = current_tool
+                    current_tool = "droid-frank"
+                    current_tool_selected = rects.droid_frank_rect
+                    click = False
+                if rects.droid_r2d2_rect.collidepoint(mpos):
+                    old_tool = current_tool
+                    current_tool = "droid-r2d2"
+                    current_tool_selected = rects.droid_r2d2_rect
+                    click = False
+                if rects.droid_hulk_rect.collidepoint(mpos):
+                    old_tool = current_tool
+                    current_tool = "droid-hulk"
+                    current_tool_selected = rects.droid_hulk_rect
+                    click = False
+                if rects.droid_ninja_rect.collidepoint(mpos):
+                    old_tool = current_tool
+                    current_tool = "droid-ninja"
+                    current_tool_selected = rects.droid_ninja_rect
+                    click = False
                 if rects.undo_rect.collidepoint(mpos):
                     undo()
                 if rects.redo_rect.collidepoint(mpos):
                     redo()
-
 
                 # Home button collidepoint
 
@@ -759,14 +821,12 @@ while running:
                     quit_program()
                     click = False
 
-
         if e.type == MOUSEBUTTONDOWN and e.button == 1:
             click = True
         elif e.type == MOUSEBUTTONUP and e.button == 1:
             click = False
             undo_list.append(main_copy)
             redo_list.append(main_copy)
-
 
     if len(undo_list) > 20:
         undo_list = undo_list[1:]
@@ -811,7 +871,7 @@ while running:
         if rect_ellipse_line_count == 1 and ('rectangle' in current_tool or 'ellipse' in current_tool or current_tool == "line"):
             rx, ry = mx, my
             rect_ellipse_line_count = 0
-        if stamp_count == 1 and "stamp" in current_tool:
+        if stamp_count == 1 and "stamp" in current_tool or "droid" in current_tool:
             rx,ry = mx, my
             stamp_count = 0
         draw_tool(current_tool)
@@ -821,12 +881,11 @@ while running:
         if rect_ellipse_line_count == 0 and ('rectangle' in current_tool or 'ellipse' in current_tool or current_tool == "line"):
             draw_rect_ellipse_line(current_tool)
             rect_ellipse_line_count = 1
-        if stamp_count == 0 and "stamp" in current_tool and drawing:
+        if stamp_count == 0 and "stamp" in current_tool or "droid" in current_tool and drawing:
             draw_stamp(current_tool)
             stamp_count = 1
 
         drawing = False
-
 
     # Call rect function
 

@@ -37,6 +37,11 @@ android_lollipop_rect = Rect(578,643,75,104)
 android_kitkat_rect = Rect(678,643,74,104)
 android_jellybean_rect = Rect(778,643,70,104)
 android_ics_rect = Rect(878,648,127,94)
+droid_iron_rect = Rect(478,760,104,104)
+droid_frank_rect = Rect(582,760,104,104)
+droid_r2d2_rect = Rect(686,760,104,104)
+droid_hulk_rect = Rect(790,760,104,104)
+droid_ninja_rect = Rect(894,760,104,104)
 
 #Menu Rects
 menu_lock_rect = Rect(0,0,0,0)
