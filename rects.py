@@ -29,6 +29,7 @@ menu_rect = Rect(944,25,56,56)
 
 #Navigation Bar Rects
 home_rect = Rect(1000,208,45,209)
+back_arrow_rect = Rect(1000,417,45,208)
 
 #Color picker and stamps rects
 color_picker_rect = Rect(61,645,370,240)

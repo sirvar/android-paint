@@ -75,6 +75,7 @@ about_menu = image.load("images/About.png")
 shutdown_menu = image.load("images/Shutdown.png")
 
 #Transform images
+iconImage = transform.scale(iconImage, (52,52))
 lockscreen_lock = transform.scale(lockscreen_lock, (80,80))
 navigation_gradient = transform.scale(navigation_gradient, (500, 750))
 notification_gradient = transform.scale(notification_gradient, (500, 750))

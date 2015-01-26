@@ -18,11 +18,8 @@ import rdraw
 import menu
 import dialog
 
-#TODO
-#watermark
-#shift held and undo/redo
-#remove lock in corner for mac
-
+#//TODO
+#undo/redo
 
 # Functions
 def draw_tool(tool):
@@ -56,7 +53,6 @@ def draw_tool(tool):
     if tool == "marker":
         rdraw.marker(main_copy, current_color, mx, my, ox, oy, size)
     if tool == 'pen':
-        print(right_click)
         rdraw.pen(main_copy, current_color, mx, my, ox, oy, size)
     if tool == 'text':
         global enable_text, tx, ty
@@ -224,7 +220,7 @@ def load_image():
         current_image = image.load(user_file)
         current_tool = 'user_image'
     elif correct_file_type == False and len(user_file_name) > 1:
-        current_dialog = 5
+        current_dialog = 4
         show_dialog = True
 
 
@@ -266,12 +262,11 @@ def reset():
 
 def undo():
     #Function to undo
-    global undo_list
+    global undo_list, redo_list
     try:
-        main_copy.set_clip(canvas)
+        main_copy.blit(undo_list[-1], (0,0))
         redo_list.append(undo_list[-1])
-        main_copy.blit(undo_list[-2], (0,0))
-        del undo[-1]
+        undo_list = undo_list[:-1]
     except:
         pass
 
@@ -280,10 +275,9 @@ def redo():
     #Function to redo
     global undo_list, redo_list
     try:
-        main_copy.set_clip(canvas)
-        undo_list.append(redo_list[-1])
         main_copy.blit(redo_list[-1], (0,0))
-        del redo_list[-1]
+        undo_list.append(redo_list[-1])
+        redo_list = redo_list[:-1]
     except:
         pass
 
@@ -369,6 +363,7 @@ img = [
     images.magic_eraser,
     images.redo,
     images.undo,
+    images.iconImage,
 ]
 
 img_location = [
@@ -401,6 +396,7 @@ img_location = [
     (4, 757),
     (724,29),
     (668,29),
+    (23,27),
 ]
 
 # Rects list
@@ -614,9 +610,8 @@ while running:
             quit_program()
 
         if e.type == MOUSEBUTTONDOWN and e.button == 1 and canvas.collidepoint(mpos):
-            undo_list.append(main_copy)
-            redo_list.append(main_copy)
-            print(undo_list)
+            undo_list.append(main_copy.copy())
+            redo_list.append(main_copy.copy())
 
         if e.type == KEYDOWN and enable_text and not show_dialog and not show_menu:
             letter = e.unicode
@@ -838,6 +833,9 @@ while running:
                 if rects.home_rect.collidepoint(mpos) and not show_dialog:
                     quit_program()
                     click = False
+                elif rects.back_arrow_rect.collidepoint(mpos) and not show_dialog:
+                    undo()
+                    click = False
 
         if e.type == MOUSEBUTTONDOWN and e.button == 1:
             click = True
@@ -972,11 +970,13 @@ while running:
 
     time_text = fonts.status_bar_time_font.render(current_time, True, (255, 255, 255))
     file_name_font = fonts.status_bar_project_name_font.render(file_name, True, (255, 255, 255))
+    app_title_font = fonts.app_title_font.render("Android Paint", True, (0,0,0))
 
     # Blit font
 
     main.blit(time_text, (945, 1))
     main.blit(file_name_font, (4, 4))
+    main.blit(app_title_font, (80,40))
 
     # Tools hover
 
@@ -1019,7 +1019,7 @@ while running:
 
     if show_menu and not show_dialog:
         item_click = menu.show(main, mpos)
-        if click:
+        if mb[0] == 1:
             if item_click == "lock":
                 lockscreen = True
                 show_menu = False

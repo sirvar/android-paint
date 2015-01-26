@@ -23,3 +23,6 @@ menu_item_font = font.Font("fonts/Roboto-Regular.ttf", 18)
 dialog_title_font = font.Font("fonts/Roboto-Regular.ttf", 20)
 dialog_body_font = font.Font("fonts/Roboto-Regular.ttf", 15)
 dialog_button_font = font.Font("fonts/Roboto-Regular.ttf", 12)
+
+#App Font
+app_title_font = font.Font("fonts/Roboto-Regular.ttf", 22)
