@@ -1,3 +1,5 @@
+#Custon Android themed dialog box module
+
 from pygame import *
 
 import fonts
@@ -5,6 +7,7 @@ import fonts
 #Custom Android themed dialog box
 
 def create(surface, title, body, height, option_nums, option_1, option_2, pos, sw=1045, sh=900):
+    #Create initial dialog box
     overlay = Surface((sw, sh), SRCALPHA)
     draw.rect(overlay, (0,0,0,80), (0,0,1045, 900))
     surface.blit(overlay, (0,0))
@@ -16,6 +19,7 @@ def create(surface, title, body, height, option_nums, option_1, option_2, pos, s
 
 
 def font(surface, title, body, height, n, opt_1, opt_2):
+    #Function to add font
     surface.blit((fonts.dialog_title_font.render(title, True, (51,181,229))), (382, 465 - height//2))
     line_height = 0
     for b in body:
@@ -32,6 +36,7 @@ def font(surface, title, body, height, n, opt_1, opt_2):
 
 
 def buttons(surface, n, height, pos):
+    #Funtion to add buttons
     rect_list = []
     if n == 1:
         draw.line(surface, (222,222,222), (372,400 + height//2), (671,400 + height//2), 1)
@@ -47,12 +52,14 @@ def buttons(surface, n, height, pos):
 
 
 def hover(surface, button_list, pos):
+    #Function to get buttons hover
     for button in button_list:
         if button.collidepoint(pos):
             draw.rect(surface, (227,227,227), button)
 
 
 def click(pos, n, height):
+    #Function to get button click
     if n == 1:
         button_rect = Rect(372, (401 + height//2), 300, 50)
         if button_rect.collidepoint(pos):

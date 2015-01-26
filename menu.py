@@ -1,3 +1,5 @@
+#Custom Android themed overflow menu
+
 from pygame import *
 
 import fonts
@@ -5,8 +7,7 @@ import images
 
 
 def show(Surface, pos):
-    #Rect is menu item, line is dividing menu items
-
+    #Create initial menu items
     lock = draw.rect(Surface, (239,239,239), (825,86,165,50))
     draw.line(Surface, (215,215,215), (825, 136), (989, 136), 1)
     reset = draw.rect(Surface, (239,239,239), (825,137,165,50))
@@ -25,12 +26,14 @@ def show(Surface, pos):
 
 
 def hover(Surface, pos, item_list):
+    #Function to get menu item hover
     for item in item_list:
         if item.collidepoint(pos):
             draw.rect(Surface, (210, 210, 210), item)
 
 
 def font(Surface):
+    #Function to add font
     font_list = ["Lock Device", "Reset", "Help", "About", "Shut Down"]
     font_location = [(835,101), (835,152), (835,203), (835,254), (835,305)]
     for i in range(5):
@@ -38,6 +41,7 @@ def font(Surface):
 
 
 def click(pos, item_list):
+    #Function to get click
     item_rect_list = [(825,86,165,50), (825,137,165,50), (825,188,165,50), (825,239,165,50), (825,290,165,50)]
     item_string_list = ["lock", "reset", "help", "about", "shutdown"]
     for item in item_list:
@@ -46,6 +50,7 @@ def click(pos, item_list):
 
 
 def icons(Surface, icon_list):
+    #Function to add icons
     pos = 97
     for i in icon_list:
         Surface.blit(i, (949, pos))

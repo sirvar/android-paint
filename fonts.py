@@ -1,3 +1,5 @@
+#Font module
+
 from pygame import font
 
 #Initialize fonts

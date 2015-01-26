@@ -1,3 +1,5 @@
+#Image module
+
 from pygame import image, transform
 
 #Load images

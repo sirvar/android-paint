@@ -1,9 +1,12 @@
+#Custom drawing module using Pygame
+
 from pygame import *
 from random import *
 from math import hypot
 
 
 def pencil(surface, color, x, y, ox, oy, size):
+    #Pencil function to draw lines
     sx = ox - x
     sy = oy - y
     dist = int(max(abs(sx), abs(sy)))
@@ -13,6 +16,7 @@ def pencil(surface, color, x, y, ox, oy, size):
 
 
 def eraser(surface, x, y, ox, oy, size):
+    #Eraser function to draw white circles
     sx = ox - x
     sy = oy - y
     dist = int(max(abs(sx), abs(sy)))
@@ -22,6 +26,7 @@ def eraser(surface, x, y, ox, oy, size):
 
 
 def brush(surface, color, x, y, ox, oy, size):
+    #Brush function to draw alpha brush
     brush_surface = Surface((size * 6, size * 6), SRCALPHA)
     r = color[0]
     g = color[1]
@@ -36,6 +41,7 @@ def brush(surface, color, x, y, ox, oy, size):
 
 
 def rectangle_filled(surface, color, x1, y1, x2, y2):
+    #Filled rectangle function
     draw.rect(surface, color, (x1, y1, x2 - x1, y2 - y1))
 
 
@@ -56,12 +62,14 @@ def rectangle_unfilled(surface, color, top, bottom, width):
 
 
 def ellipse_filled(surface, color, x1, y1, x2, y2):
+    #Filled ellipse function
     eRect = Rect(x1, y1, x2 - x1, y2 - y1)
     eRect.normalize()
     draw.ellipse(surface, color, eRect)
 
 
 def ellipse_unfilled(surface, color, x1, y1, x2, y2, size):
+    #Unfilled ellipse function
     eRect = Rect(x1, y1, x2 - x1, y2 - y1)
     eRect.normalize()
     if eRect.height < size * 2 or eRect.width < size * 2:
@@ -71,10 +79,12 @@ def ellipse_unfilled(surface, color, x1, y1, x2, y2, size):
 
 
 def line(surface, color, x1, y1, x2, y2, size):
+    #Line function
     draw.line(surface, color, (x1, y1), (x2, y2), size)
 
 
 def spray_paint(surface, color, x, y, ox, oy, size):
+    #Spray paint effect funtion
     for i in range(size * 3):
             (px, py) = (randint(x - size * 4, x + size * 4), randint(y - size * 4, y + size * 4))
             dist = hypot(px - x, py - y)
@@ -83,6 +93,7 @@ def spray_paint(surface, color, x, y, ox, oy, size):
 
 
 def flood_fill(surface, x, y, color_at, color_set, canvas):
+    #Flood fill/bucket fill function
     flood_pos = [(x,y)]
     surface.set_clip(canvas)
     if color_at != color_set:
@@ -97,6 +108,7 @@ def flood_fill(surface, x, y, color_at, color_set, canvas):
 
 
 def magic_eraser(surface, x, y, color_at, color_set, canvas):
+    #Magic eraser function (a.k.a. white flood fill)
     flood_pos = [(x,y)]
     surface.set_clip(canvas)
     if color_at != color_set:
@@ -115,6 +127,7 @@ def magic_eraser(surface, x, y, color_at, color_set, canvas):
 
 
 def marker(surface, color, x, y, ox, oy, size):
+    #Marker function
     sx = ox - x
     sy = oy - y
     dist = int(max(abs(sx), abs(sy)))
@@ -124,15 +137,7 @@ def marker(surface, color, x, y, ox, oy, size):
 
 
 def pen(surface, color, mx, my, ox, oy, size):
-    """
-    dist = hypot(max(mx-ox,ox-mx), max(my-oy,oy-my))
-    sx = ox - mx
-    sy = oy - my
-    dist = int(max(abs(sx), abs(sy)))
-    draw.circle(surface, color, (mx, my), int((200-dist)*0.028))
-    for i in range(dist):
-        draw.circle(surface, color, (int(mx + (i * sx) / dist), int(my + (i * sy) / dist)), int((200 - dist) * 0.025))
-    """
+    #Calligraphy pen function
     sx = ox - mx
     sy = oy - my
     dist = int(max(abs(sx), abs(sy)))
@@ -144,6 +149,7 @@ def pen(surface, color, mx, my, ox, oy, size):
 
 
 def text(surface, color, tx, ty, size, user_text):
+    #Text tool function
     user_text_font = font.Font("fonts/Roboto-Regular.ttf",  (size * 10))
     user_text_font_text = user_text_font.render(user_text, True, color)
     surface.blit(user_text_font_text, (tx,ty - user_text_font_text.get_height()))

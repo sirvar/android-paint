@@ -1,5 +1,5 @@
 #Developed by Rikin Katyal
-#Made for grade 11 computer science project. 2015
+#Made for grade 11 computer science project in 2015
 
 from os import environ
 from time import strftime, localtime
@@ -17,9 +17,6 @@ import rects
 import rdraw
 import menu
 import dialog
-
-#//TODO
-#undo/redo
 
 # Functions
 def draw_tool(tool):
@@ -326,7 +323,7 @@ rect_ellipse_line_count = 0
 stamp_count = 0
 color_pos = (431,885)
 user_text = ''
-about_text = ["Welcome to Android Paint. This is an", "Android themed paint program developed", "in Python and Pygame for a computer", "science project.", "", "Version: 0.1 BETA", "© 2015 Rikin Katyal"]
+about_text = ["Welcome to Android Paint. This is an", "Android themed paint program developed", "in Python and Pygame for a computer", "science project in grade 11.", "", "Version: 1.0", "© 2015 Rikin Katyal - www.rikinkatyal.me"]
 help_text = ["Welcome to Android Paint. You can use", "the tools on the left to draw on the", "canvas. You can use the color picker on", "the bottom to change the drawing color", "or use the Android stamps in your", "drawing. Use the tools at the top to", "save, clear, load, undo, and redo."]
 load_success_text = ["Your selected image has been successfully",  "loaded. Click anywhere on the screen to", "place the image there. Note: Size 1 will", "be the original image size. Increasing the", "size will increase the width and height of", "the image by 10px."]
 load_fail_text = ['Sorry, looks like you are trying to load', 'an unsupported image. Acceptable file', 'types are: JPG, PNG, GIF, and BMP']

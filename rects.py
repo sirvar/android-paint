@@ -1,3 +1,5 @@
+#Rects module
+
 from pygame import Rect
 
 #Set rects
@@ -43,6 +45,3 @@ droid_frank_rect = Rect(582,760,104,104)
 droid_r2d2_rect = Rect(686,760,104,104)
 droid_hulk_rect = Rect(790,760,104,104)
 droid_ninja_rect = Rect(894,760,104,104)
-
-#Menu Rects
-menu_lock_rect = Rect(0,0,0,0)
