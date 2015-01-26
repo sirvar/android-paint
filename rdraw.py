@@ -10,7 +10,7 @@ def pencil(surface, color, x, y, ox, oy, size):
     sx = ox - x
     sy = oy - y
     dist = int(max(abs(sx), abs(sy)))
-    draw.circle(surface, color, (x, y), size // 2)
+    draw.circle(surface, color, (x, y), size // 2)      #Draw connected circles to form lines
     for i in range(dist):
         draw.circle(surface, color, (int(x + (i * sx) / dist), int(y + (i * sy) / dist)), size // 2)
 
@@ -20,7 +20,7 @@ def eraser(surface, x, y, ox, oy, size):
     sx = ox - x
     sy = oy - y
     dist = int(max(abs(sx), abs(sy)))
-    draw.circle(surface, (255,255,255), (x,y), size * 6)
+    draw.circle(surface, (255,255,255), (x,y), size * 6)        #Draw connected circles to form eraser
     for i in range(dist):
         draw.circle(surface, (255,255,255), (int(x + (i * sx) / dist), int(y + (i * sy) / dist)), size * 6)
 
@@ -35,7 +35,7 @@ def brush(surface, color, x, y, ox, oy, size):
     sx = ox - x
     sy = oy - y
     dist = int(max(abs(sx), abs(sy)))
-    surface.blit(brush_surface, (x - (size * 3), y - (size * 3)))
+    surface.blit(brush_surface, (x - (size * 3), y - (size * 3)))       #Draw connected surfaces with alpha value to form brush
     for i in range(dist):
         surface.blit(brush_surface, (int(x + (i * sx) / dist) - (size * 3), int(y + (i * sy) / dist) - (size * 3)))
 

@@ -263,7 +263,7 @@ def undo():
     try:
         main_copy.blit(undo_list[-1], (0,0))
         redo_list.append(undo_list[-1])
-        undo_list = undo_list[:-1]
+        del undo_list[-1]
     except:
         pass
 
@@ -273,8 +273,7 @@ def redo():
     global undo_list, redo_list
     try:
         main_copy.blit(redo_list[-1], (0,0))
-        undo_list.append(redo_list[-1])
-        redo_list = redo_list[:-1]
+        undo_list.append(redo_list.pop())
     except:
         pass
 
