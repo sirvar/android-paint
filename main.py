@@ -41,7 +41,11 @@ def draw_tool(tool):
         rdraw.ellipse_unfilled(main, current_color, rx, ry, mx, my, size)
     if tool == "line":
         if pressed[K_LSHIFT] or pressed[K_RSHIFT]:
-            pass
+            lx, ly = abs(rx - mx), abs(ry - my)
+            if lx > ly:
+                rdraw.line(main, current_color, rx,ry, mx, ry, size)
+            elif lx < ly:
+                rdraw.line(main, current_color, rx,ry, rx, my, size)
         else:
             rdraw.line(main, current_color, rx, ry, mx, my, size)
     if tool == 'eyedropper' and canvas.collidepoint(mpos):
@@ -110,7 +114,14 @@ def draw_rect_ellipse_line(tool):
     if tool == 'ellipse_unfilled':
         rdraw.ellipse_unfilled(main_copy, current_color, rx, ry, mx, my, size)
     if tool == "line":
-        rdraw.line(main_copy, current_color, rx, ry, mx, my, size)
+        if pressed[K_LSHIFT] or pressed[K_RSHIFT]:
+            dx, dy = abs(rx - mx), abs(ry - my)
+            if dx > dy:
+                rdraw.line(main_copy, current_color, rx,ry, mx, ry, size)
+            elif dx < dy:
+                rdraw.line(main_copy, current_color, rx,ry, rx, my, size)
+        else:
+            rdraw.line(main_copy, current_color, rx, ry, mx, my, size)
 
 
 def draw_stamp(tool):
