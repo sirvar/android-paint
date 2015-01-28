@@ -27,6 +27,8 @@ def draw_tool(tool):
     if tool == 'eraser':
         rdraw.eraser(main_copy, mx, my, ox, oy, size)
     if tool == 'bucket':
+        if not draw_canvas:
+            main_copy.fill((current_color))
         mouse_color_at = main_copy.get_at((mx, my))
         rdraw.flood_fill(main_copy, mx, my, mouse_color_at, current_color, canvas)
     if tool == 'brush':
@@ -259,13 +261,14 @@ def color_picker():
 
 def reset():
     #Function to reset all tools to the beginning
-    global size, current_color, current_tool, current_tool_selected, show_menu
+    global size, current_color, current_tool, current_tool_selected, show_menu, draw_canvas
     size = 1
     current_color = (0, 0, 0)
     current_tool = 'pencil'
     current_tool_selected = rects.pencil_rect
     main_copy.fill((255,255,255))
     show_menu = False
+    draw_canvas = False
 
 
 def undo():
