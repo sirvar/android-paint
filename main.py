@@ -261,9 +261,8 @@ def undo():
     #Function to undo
     global undo_list, redo_list
     try:
+        redo_list.append(undo_list.pop()) 
         main_copy.blit(undo_list[-1], (0,0))
-        redo_list.append(undo_list[-1])
-        del undo_list[-1]
     except:
         pass
 
@@ -456,10 +455,6 @@ image_ext = ['jpg', 'jpeg', 'png', 'gif', 'bmp']
 
 dialog_list = ["about", "help", "quit", "save", "load_fail"]
 
-# Special charaters list
-
-special_chars = ["`", "~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "|", "]", "}", "{", "[", ";", ":", "'", '"', ",", "<", ">", ".", "?", "/"]
-
 # Setup TKInter
 
 app = Tk()
@@ -586,6 +581,7 @@ while running:
         main.fill(background_color)
         main_count = 0
         main_copy = main.copy()
+        undo_list.append(main_copy.copy())
         reset()
 
     # Get mouse activity
@@ -605,9 +601,8 @@ while running:
         if e.type == QUIT:
             quit_program()
 
-        if e.type == MOUSEBUTTONDOWN and e.button == 1 and canvas.collidepoint(mpos):
+        if e.type == MOUSEBUTTONUP and e.button == 1 and canvas.collidepoint(mpos):
             undo_list.append(main_copy.copy())
-            redo_list.append(main_copy.copy())
 
         if e.type == KEYDOWN and enable_text and not show_dialog and not show_menu:
             letter = e.unicode
@@ -709,6 +704,7 @@ while running:
             if not show_dialog and not show_menu:
                 if rects.clear_rect.collidepoint(mpos):
                     main_copy.fill((255, 255, 255))
+                    undo_list.append(main_copy.copy())
                     draw_canvas = False
                     click = False
                 if rects.save_rect.collidepoint(mpos):
